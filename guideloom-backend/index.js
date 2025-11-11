@@ -60,3 +60,13 @@ app.post('/api/ai/query', (req, res) => {
 });
 
 app.listen(PORT, () => console.log(`GuideLoom backend listening on http://localhost:${PORT}`));
+
+// Serve frontend in production (optional): expects build in ../guideloom-frontend/dist
+const path = require('path');
+if (process.env.NODE_ENV === 'production'){
+  const staticPath = path.join(__dirname, '..', 'guideloom-frontend', 'dist')
+  app.use(express.static(staticPath))
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(staticPath, 'index.html'))
+  })
+}
