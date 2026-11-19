@@ -1,26 +1,55 @@
-# GuideLoom (formerly SparkV / PathSpark) — Repo README
+# SparkV / GuideLoom Adaptive Career Roadmap
 
-This workspace contains the project synopsis for GuideLoom, an AI-powered roadmap platform for developers. The synopsis (`PathSpark_synopsis.md`) contains the project overview, architecture, data models, AI integration design, and next steps. (File will be renamed on request.)
+GuideLoom is a MERN-stack adaptive roadmap platform. It keeps the existing GuideLoom pages and APIs and adds AI-assisted skill gap analysis, prerequisite roadmaps, progress tracking, and context-aware recommendations.
 
-What I just added:
+## Features
 
-- `PathSpark_synopsis.md` — A formatted project synopsis and implementation plan (content now uses the chosen name GuideLoom). If you prefer, I can rename this file to `GuideLoom_synopsis.md`.
+- Career-specific skill assessment with Beginner, Intermediate, and Advanced levels
+- Skill gap report with Known, Improvement, and Missing categories
+- MongoDB-persisted assessments and private adaptive roadmaps
+- Locked, Available, and Completed topics enforced by prerequisites
+- Phases, milestones, assignments, durations, and learning resources
+- Topic completion, self-assessment, difficulty reporting, revision recommendations, and learning history
+- Backend-only OpenAI integration with catalog fallbacks
 
-Recommended next actions (choose one or tell me to proceed):
+## Run locally
 
-1. Acknowledge the selected project name: `GuideLoom` (default) or pick another from the alternatives in the synopsis.
-2. Ask me to scaffold the full-stack MVP now. I can create:
-   - Frontend: Vite + React app (Landing, Roadmaps, AI chat, Auth pages)
-   - Backend: Express server with auth endpoints, roadmaps routes, AI proxy endpoint
-   - Seed data: a few sample roadmaps (C++, Git, GitHub) and videos/links
-   - README with run commands and environment variable guide
+Backend:
 
-3. Or ask for only a formatted project synopsis export (PDF/Word) — I can generate a clean export-ready markdown or convert it to PDF after confirmation.
+```powershell
+cd d:\myfolders\Roadmaps\guideloom-backend
+npm install
+Copy-Item .env.example .env
+# Edit MONGODB_URI, JWT_SECRET, and optionally OPENAI_API_KEY
+npm run dev
+```
 
-If you want me to scaffold, reply with one of:
+Frontend:
 
-- "Scaffold full-stack with name GuideLoom"
-- "Scaffold frontend-only with name <your-name>"
-- "Change name to <your-choice> and then scaffold"
+```powershell
+cd d:\myfolders\Roadmaps\guideloom-frontend
+npm install
+npm run dev
+```
 
-I'll scaffold and run quick build/lint checks once you confirm.
+Open the Vite URL (normally `http://localhost:5173`). Register or login, then open **Adaptive roadmap**.
+
+## Environment
+
+- `MONGODB_URI`: MongoDB connection string
+- `JWT_SECRET`: JWT signing secret
+- `OPENAI_API_KEY`: optional; omit to use deterministic catalog fallbacks
+- `AI_MODEL`: optional OpenAI model, defaults to `gpt-4o-mini`
+- `PORT`: backend port, defaults to `4000`
+
+## Main adaptive APIs
+
+- `POST /api/assessments`
+- `GET /api/assessments/latest`
+- `POST /api/roadmaps/adaptive/generate`
+- `GET /api/roadmaps/adaptive`
+- `GET /api/roadmaps/adaptive/:career`
+- `PATCH /api/roadmaps/adaptive/:career/topics/:topicId`
+- `POST /api/roadmaps/adaptive/:career/recommendations`
+
+All adaptive APIs require `Authorization: Bearer <JWT>`.

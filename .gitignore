@@ -1,1 +1,8 @@
 /PathSpark_synopsis.md
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+*.local
+npm-debug.log*
